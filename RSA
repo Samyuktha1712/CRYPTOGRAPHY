@@ -1,0 +1,10 @@
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
+
+key = RSA.generate(2048)
+enc = lambda pub, data: PKCS1_OAEP.new(pub).encrypt(data.encode())
+dec = lambda priv, data: PKCS1_OAEP.new(priv).decrypt(data).decode()
+
+data = "Hello, RSA!"
+enc_data = enc(key.publickey(), data)
+print(enc_data, dec(key, enc_data))
