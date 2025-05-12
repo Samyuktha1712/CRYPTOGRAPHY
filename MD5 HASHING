@@ -1,0 +1,9 @@
+import hashlib
+
+def md5_hash(data):
+    return hashlib.md5(data.encode()).hexdigest()
+
+data = "Hello, MD5 Hashing!"
+hashed_data = md5_hash(data)
+
+print("MD5 Hash:", hashed_data)
