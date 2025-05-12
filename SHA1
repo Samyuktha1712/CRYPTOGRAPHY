@@ -1,0 +1,9 @@
+import hashlib
+
+def sha1_hash(data):
+    return hashlib.sha1(data.encode()).hexdigest()
+
+data = "Hello, SHA-1 Hashing!"
+hashed_data = sha1_hash(data)
+
+print("SHA-1 Hash:", hashed_data)
