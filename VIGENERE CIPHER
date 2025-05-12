@@ -1,0 +1,5 @@
+def vigenere(p, k):
+    k = (k * (len(p)//len(k)+1))[:len(p)]
+    print(''.join(chr((ord(p[i])-65 + ord(k[i])-65)%26 + 65) for i in range(len(p))))
+
+vigenere("HELLOWORLD", "KEY")
