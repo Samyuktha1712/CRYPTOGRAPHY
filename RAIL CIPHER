@@ -1,0 +1,30 @@
+def rail_enc(t, r):
+    f, i, row, d = [['' for _ in t] for _ in range(r)], 0, 0, 1
+    for c in t: f[row][i], i = c, i + 1; row += d; d = -d if row == 0 or row == r - 1 else d
+    return ''.join(''.join(fr) for fr in f)
+
+def rail_dec(c, r):
+    f, i, row, d = [['' for _ in c] for _ in range(r)], 0, 0, 1
+    for _ in c: f[row][i], i = '*', i + 1; row += d; d = -d if row == 0 or row == r - 1 else d
+    for a in range(r): 
+        for b in range(len(c)): 
+            if f[a][b] == '*': f[a][b] = c[i]; i += 1
+    return ''.join([f[row][i] for i in range(len(c)) for row in range(r)])
+
+def col_enc(t, c):
+    t += 'X' * (-len(t) % c)
+    m = [t[i:i + c] for i in range(0, len(t), c)]
+    return ''.join(m[r][i] for i in range(c) for r in range(len(m)))
+
+def col_dec(c, n):
+    r, i, m = len(c) // n, 0, [['' for _ in range(n)] for _ in range(len(c) // n)]
+    for col in range(n): 
+        for row in range(r): 
+            m[row][col] = c[i]; i += 1
+    return ''.join(''.join(row) for row in m)
+
+t, rails, cols = "HELLOTHISISRAILFENCE", 3, 5
+print("RF Enc:", rail_enc(t, rails))
+print("RF Dec:", rail_dec(rail_enc(t, rails), rails))
+print("CT Enc:", col_enc(t, cols))
+print("CT Dec:", col_dec(col_enc(t, cols), cols))
