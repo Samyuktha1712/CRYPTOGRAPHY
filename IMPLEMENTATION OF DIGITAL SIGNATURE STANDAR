@@ -1,0 +1,27 @@
+import hashlib
+
+def egcd(a, b): return a, 1, 0 if b == 0 else egcd(b, a % b)
+def mod_inv(a, m): return egcd(a, m)[1] % m
+def hash_msg(msg): return int(hashlib.sha1(msg.encode()).hexdigest(), 16)
+
+def sign(msg, priv_key, p, q, g):
+    h = hash_msg(msg)
+    k = 123456789
+    r = pow(g, k, p) % q
+    s = (mod_inv(k, q) * (h + priv_key * r)) % q
+    return r, s
+
+def verify(msg, sig, pub_key, p, q, g):
+    r, s = sig
+    h = hash_msg(msg)
+    w = mod_inv(s, q)
+    u1, u2 = (h * w) % q, (r * w) % q
+    v = (pow(g, u1, p) * pow(pub_key, u2, p)) % p % q
+    return v == r
+
+p, q, g = 101427 * 101429, 101427, 2
+priv_key = 12345
+pub_key = pow(g, priv_key, p)
+msg = "Hello"
+sig = sign(msg, priv_key, p, q, g)
+print(sig, verify(msg, sig, pub_key, p, q, g))
