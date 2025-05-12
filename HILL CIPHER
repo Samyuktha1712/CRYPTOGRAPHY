@@ -1,0 +1,18 @@
+#include <stdio.h>
+int k[2][2] = {{3,3},{2,5}}; // Example key matrix
+
+void hill(char *p) {
+  for (int i = 0; p[i] && p[i+1]; i += 2) {
+    int a = p[i]-'A', b = p[i+1]-'A';
+    printf("%c%c", 
+      (k[0][0]*a + k[0][1]*b)%26 + 'A',
+      (k[1][0]*a + k[1][1]*b)%26 + 'A');
+  }
+}
+
+int main() {
+  char p[100];
+  fgets(p, 100, stdin);
+  for (int i=0; p[i]; i++) if (p[i] >= 'a') p[i] -= 32;
+  hill(p);
+}
