@@ -1,0 +1,12 @@
+import random
+
+def dh(p, g, a, b):
+    A, B = pow(g, a, p), pow(g, b, p)
+    return pow(B, a, p), pow(A, b, p)
+
+p, g = 23, 5
+a, b = random.randint(1, p-1), random.randint(1, p-1)
+
+alice_key, bob_key = dh(p, g, a, b)
+
+print(alice_key, bob_key)
