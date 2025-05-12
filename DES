@@ -1,0 +1,16 @@
+from Crypto.Cipher import DES
+from Crypto.Util.Padding import pad, unpad
+from Crypto.Random import get_random_bytes
+
+def enc(key, data):
+    cipher = DES.new(key, DES.MODE_CBC)
+    return cipher.iv + cipher.encrypt(pad(data.encode(), 8))
+
+def dec(key, enc_data):
+    iv, data = enc_data[:8], enc_data[8:]
+    return unpad(DES.new(key, DES.MODE_CBC, iv).decrypt(data), 8).decode()
+
+key = get_random_bytes(8)
+enc_data = enc(key, "Hello, DES Encryption!")
+print("Encrypted:", enc_data)
+print("Decrypted:", dec(key, enc_data))
