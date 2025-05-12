@@ -1,0 +1,10 @@
+from scapy.all import sniff
+
+def detect(pkt):
+    if pkt.haslayer('IP') and pkt.haslayer('TCP'):
+        ip = pkt['IP'].src
+        port = pkt['TCP'].dport
+        if port == 23:  # Telnet traffic
+            print(f"Possible intrusion from {ip} on port {port}")
+
+sniff(prn=detect, store=0)
